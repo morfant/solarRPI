@@ -21,7 +21,7 @@ ADAFRUIT_IO_USERNAME = "giy"        # Adafruit.IO user ID
 ADAFRUIT_IO_KEY = "c0ee9df947d4443286872f667e389f1f"    # Adafruit.IO user key
 ADAFRUIT_IO_TOPIC = "info"        # Adafruit.IO alarm topic
 
-STREAM_MOUNTPOINT = "weatherreport_test.ogg"
+STREAM_MOUNTPOINT = "weatherreport.mp3"
 STREAM_CHECK_POINT = "http://weatherreport.kr:8000/status-json.xsl"
 
 cur_r = 0
