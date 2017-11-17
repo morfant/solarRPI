@@ -78,11 +78,11 @@ def publishState_player(monitorState, onoff):
 
 def readyToPlay():
     result = subprocess.check_output ('mpc clear', shell=True)
-    print result
+    # print result
     result = subprocess.check_output ('mpc add ' + STREAM_BASE_URL + STREAM_MOUNTPOINT, shell=True)
-    print result
+    # print result
     result = subprocess.check_output ('mpc play', shell=True)
-    print result
+    # print result
 
 def checkStr():
     r = requests.get(STREAM_CHECK_POINT)
