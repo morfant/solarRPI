@@ -16,7 +16,7 @@ import subprocess
 ########################
 # Globals
 ########################
-PLACE = "IMSI" # "SONGDO", "XX"
+PLACE = "IMSI" # "SONGDO", "XX" # where is the player?
 ADAFRUIT_IO_USERNAME = "giy"        # Adafruit.IO user ID
 ADAFRUIT_IO_KEY = "c0ee9df947d4443286872f667e389f1f"    # Adafruit.IO user key
 ADAFRUIT_IO_TOPIC_info = "info"        # Adafruit.IO alarm topic
@@ -51,16 +51,16 @@ def topic_play(x):
     
 def mp(x):
     return {
-        "IMSI" : "imsi.mp3",
-        "SONGDO" : "songdo.mp3",
-        "XX" : "xx.mp3"
+        "IMSI" : "xx.mp3",
+        "SONGDO" : "imsi.mp3",
+        "XX" : "songdo.mp3"
     }.get(x) 
 
 def streamName(x):
     return {
-        "IMSI" : "weatherReport_imsi",
-        "SONGDO" : "weatherReport_songdo.mp3",
-        "XX" : "weatherReport_xx.mp3"
+        "IMSI" : "weatherReport_xx",
+        "SONGDO" : "weatherReport_imsi.mp3",
+        "XX" : "weatherReport_songdo.mp3"
     }.get(x) 
 
 
