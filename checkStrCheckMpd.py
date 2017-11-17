@@ -16,7 +16,7 @@ import subprocess
 ########################
 # Globals
 ########################
-PLACE = "IMSI" # "SONGDO", "XX" # where is the player?
+PLACE = "SONGDO" # where is the player?
 ADAFRUIT_IO_USERNAME = "giy"        # Adafruit.IO user ID
 ADAFRUIT_IO_KEY = "c0ee9df947d4443286872f667e389f1f"    # Adafruit.IO user key
 ADAFRUIT_IO_TOPIC_info = "info"        # Adafruit.IO alarm topic
@@ -59,8 +59,8 @@ def mp(x):
 def streamName(x):
     return {
         "IMSI" : "weatherReport_xx",
-        "SONGDO" : "weatherReport_imsi.mp3",
-        "XX" : "weatherReport_songdo.mp3"
+        "SONGDO" : "weatherReport_imsi",
+        "XX" : "weatherReport_songdo"
     }.get(x) 
 
 
@@ -68,9 +68,9 @@ def init():
     global STREAM_MOUNTPOINT
     global STREAM_NAME
     STREAM_MOUNTPOINT = mp(PLACE)
-    print STREAM_MOUNTPOINT
+    #print STREAM_MOUNTPOINT
     STREAM_NAME = streamName(PLACE)
-    print STREAM_NAME
+    #print STREAM_NAME
 
 
 # Callback functions for Adafruit.IO connections
@@ -89,14 +89,14 @@ def AIOmessage(client, feed_id, payload):
     print("adafruit.io received ", payload)
 
 def publishState_stream(monitorState):
-    print("Publishing to " + ADAFRUIT_IO_TOPIC_info + ": " + monitorState)
     client.publish(ADAFRUIT_IO_TOPIC_info, monitorState)
     client.publish(topic_str(PLACE), monitorState)
+    print("Publishing to " + topic_str(PLACE) + ": " + monitorState)
 
 def publishState_player(monitorState, onoff):
-    print("Publishing to " + ADAFRUIT_IO_TOPIC_info + ": " + monitorState)
     client.publish(ADAFRUIT_IO_TOPIC_info, monitorState)
     client.publish(topic_play(PLACE), onoff)
+    print("Publishing to " + topic_play(PLACE) + ": " + onoff)
 
 def readyToPlay():
     result = subprocess.check_output ('mpc clear', shell=True)
@@ -125,25 +125,23 @@ def checkStr():
             if (cur_r != prv_r):
                 publishState_stream("INFO : mount point " + STREAM_MOUNTPOINT + " not found.")
                 # print ("INFO : mount point " + STREAM_MOUNTPOINT + " not found.")
-            prv_r = cur_r
 
-            # Send MPD status
-            cur_rr = 0
-            if (cur_rr != prv_rr):
-                msg = "STOPPED : Check " + STREAM_BASE_URL + STREAM_MOUNTPOINT + "!!"
-                # print msg
+                # Send MPD status
+                msg = "mount point " +  STREAM_BASE_URL + STREAM_MOUNTPOINT + "not found."
                 publishState_player(msg, OFF_VALUE)
-            prv_rr = cur_rr
+
+            prv_r = cur_r
 
 
         else:
             result = subprocess.check_output ('mpc current', shell=True) # !!mpd must be running before do this.
-            # print result
+            #print result
+
             if STREAM_NAME in result: # Playing already
                 cur_rr = 1
                 if (cur_rr != prv_rr):
                     msg = "PLAYING OK : " + STREAM_BASE_URL + STREAM_MOUNTPOINT
-                    print msg
+                #    print msg
                     publishState_player(msg, ON_VALUE)
                 prv_rr = cur_rr
 
@@ -151,9 +149,9 @@ def checkStr():
                 cur_rr = 0
                 if (cur_rr != prv_rr):
                     msg = "STOPPED : Check " + STREAM_BASE_URL + STREAM_MOUNTPOINT + "!!"
-                    print msg
+                #    print msg
                     publishState_player(msg, OFF_VALUE)
-                    subprocess.call ('mpc play', shell=True)
+                    readyToPlay()
                 prv_rr = cur_rr
 
             cur_r = 1
