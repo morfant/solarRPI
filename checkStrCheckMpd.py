@@ -16,7 +16,7 @@ import subprocess
 ########################
 # Globals
 ########################
-PLACE = "SONGDO" # where is the player?
+PLACE = "IMSI" # where is the player?
 ADAFRUIT_IO_USERNAME = "giy"        # Adafruit.IO user ID
 ADAFRUIT_IO_KEY = "c0ee9df947d4443286872f667e389f1f"    # Adafruit.IO user key
 ADAFRUIT_IO_TOPIC_info = "info"        # Adafruit.IO alarm topic
@@ -136,6 +136,8 @@ def checkStr():
         else:
             result = subprocess.check_output ('mpc current', shell=True) # !!mpd must be running before do this.
             #print result
+
+            subprocess.check_output ('mpc play', shell=True)
 
             if STREAM_NAME in result: # Playing already
                 cur_rr = 1
