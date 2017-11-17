@@ -16,26 +16,14 @@ import subprocess
 ########################
 # Globals
 ########################
-
+PLACE = "IMSI" # "SONGDO", "XX"
 ADAFRUIT_IO_USERNAME = "giy"        # Adafruit.IO user ID
 ADAFRUIT_IO_KEY = "c0ee9df947d4443286872f667e389f1f"    # Adafruit.IO user key
-ADAFRUIT_IO_TOPIC_0 = "info"        # Adafruit.IO alarm topic
-# ADAFRUIT_IO_TOPIC_streamer = "stream_0"        # Adafruit.IO alarm topic
-ADAFRUIT_IO_TOPIC_streamer = "stream_1"        # Adafruit.IO alarm topic
-# ADAFRUIT_IO_TOPIC_streamer = "stream_2"        # Adafruit.IO alarm topic
-# ADAFRUIT_IO_TOPIC_player = "player_0"        # Adafruit.IO alarm topic
-ADAFRUIT_IO_TOPIC_player = "player_1"        # Adafruit.IO alarm topic
-# ADAFRUIT_IO_TOPIC_player = "player_2"        # Adafruit.IO alarm topic
-
+ADAFRUIT_IO_TOPIC_info = "info"        # Adafruit.IO alarm topic
 STREAM_BASE_URL = "http://weatherreport.kr:8000/"
-# STREAM_MOUNTPOINT = "weatherreport.mp3"
-# STREAM_MOUNTPOINT = "imsi.mp3"
-STREAM_MOUNTPOINT = "songdo.mp3"
-# STREAM_MOUNTPOINT = "xx.mp3"
-# STREAM_NAME = "weatherReport_imsi" # 1
-STREAM_NAME = "weatherReport_songdo" # 2
-# STREAM_NAME = "weatherReport_xx" # 3
 STREAM_CHECK_POINT = "http://weatherreport.kr:8000/status-json.xsl"
+ON_VALUE = "1"
+OFF_VALUE = "0"
 
 cur_r = 0
 prv_r = 0
@@ -46,6 +34,44 @@ prv_rr = 0
 ########################
 # Functions
 ########################
+
+def topic_str(x):
+    return {
+        "IMSI" : "stream_0",
+        "SONGDO" : "stream_1",
+        "XX" : "stream_2"
+    }.get(x) 
+    
+def topic_play(x):
+    return {
+        "IMSI" : "player_0",
+        "SONGDO" : "player_1",
+        "XX" : "player_2"
+    }.get(x) 
+    
+def mp(x):
+    return {
+        "IMSI" : "imsi.mp3",
+        "SONGDO" : "songdo.mp3",
+        "XX" : "xx.mp3"
+    }.get(x) 
+
+def streamName(x):
+    return {
+        "IMSI" : "weatherReport_imsi",
+        "SONGDO" : "weatherReport_songdo.mp3",
+        "XX" : "weatherReport_xx.mp3"
+    }.get(x) 
+
+
+def init():
+    global STREAM_MOUNTPOINT
+    global STREAM_NAME
+    STREAM_MOUNTPOINT = mp(PLACE)
+    print STREAM_MOUNTPOINT
+    STREAM_NAME = streamName(PLACE)
+    print STREAM_NAME
+
 
 # Callback functions for Adafruit.IO connections
 def AIOconnected(client):
@@ -63,26 +89,22 @@ def AIOmessage(client, feed_id, payload):
     print("adafruit.io received ", payload)
 
 def publishState_stream(monitorState):
-    print("Publishing to " + ADAFRUIT_IO_TOPIC_0 + ": " + monitorState)
-    client.publish(ADAFRUIT_IO_TOPIC_0, monitorState)
-    client.publish(ADAFRUIT_IO_TOPIC_streamer, monitorState)
-    # client.publish(ADAFRUIT_IO_TOPIC_0, monitorState)
-    # client.publish(ADAFRUIT_IO_TOPIC_0, monitorState)
+    print("Publishing to " + ADAFRUIT_IO_TOPIC_info + ": " + monitorState)
+    client.publish(ADAFRUIT_IO_TOPIC_info, monitorState)
+    client.publish(topic_str(PLACE), monitorState)
 
 def publishState_player(monitorState, onoff):
-    print("Publishing to " + ADAFRUIT_IO_TOPIC_0 + ": " + monitorState)
-    client.publish(ADAFRUIT_IO_TOPIC_0, monitorState)
-    client.publish(ADAFRUIT_IO_TOPIC_player, onoff)
-    # client.publish(ADAFRUIT_IO_TOPIC_0, monitorState)
-    # client.publish(ADAFRUIT_IO_TOPIC_0, monitorState)
+    print("Publishing to " + ADAFRUIT_IO_TOPIC_info + ": " + monitorState)
+    client.publish(ADAFRUIT_IO_TOPIC_info, monitorState)
+    client.publish(topic_play(PLACE), onoff)
 
 def readyToPlay():
     result = subprocess.check_output ('mpc clear', shell=True)
-    print result
+    # print result
     result = subprocess.check_output ('mpc add ' + STREAM_BASE_URL + STREAM_MOUNTPOINT, shell=True)
-    print result
+    # print result
     result = subprocess.check_output ('mpc play', shell=True)
-    print result
+    # print result
 
 def checkStr():
     r = requests.get(STREAM_CHECK_POINT)
@@ -96,6 +118,7 @@ def checkStr():
         publishState_stream("INFO : Streaming link has NOT OK response (" + r.status_code + ")")
         # print ("INFO : Streaming link has NOT OK response (" + r.status_code + ")")
     else:
+        # STREAM_MOUNTPOINT = mp(PLACE)
         if STREAM_MOUNTPOINT not in r.content:
 
             cur_r = 0
@@ -109,7 +132,7 @@ def checkStr():
             if (cur_rr != prv_rr):
                 msg = "STOPPED : Check " + STREAM_BASE_URL + STREAM_MOUNTPOINT + "!!"
                 # print msg
-                publishState_player(msg, 0)
+                publishState_player(msg, OFF_VALUE)
             prv_rr = cur_rr
 
 
@@ -121,7 +144,7 @@ def checkStr():
                 if (cur_rr != prv_rr):
                     msg = "PLAYING OK : " + STREAM_BASE_URL + STREAM_MOUNTPOINT
                     print msg
-                    publishState_player(msg, 1)
+                    publishState_player(msg, ON_VALUE)
                 prv_rr = cur_rr
 
             else :
@@ -129,14 +152,13 @@ def checkStr():
                 if (cur_rr != prv_rr):
                     msg = "STOPPED : Check " + STREAM_BASE_URL + STREAM_MOUNTPOINT + "!!"
                     print msg
-                    publishState_player(msg, 0)
+                    publishState_player(msg, OFF_VALUE)
                     subprocess.call ('mpc play', shell=True)
                 prv_rr = cur_rr
 
             cur_r = 1
             if (cur_r != prv_r):
                 publishState_stream("INFO : mount point " + STREAM_MOUNTPOINT + " is streaming well.")
-                # print ("INFO : mount point " + STREAM_MOUNTPOINT + " is streaming well.")
             prv_r = cur_r
 
     threading.Timer(10, checkStr).start()
@@ -149,6 +171,7 @@ def checkStr():
 
 if "__main__" == __name__:
 
+    init()
 
     client = MQTTClient(ADAFRUIT_IO_USERNAME, ADAFRUIT_IO_KEY)
 
