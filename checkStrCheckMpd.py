@@ -103,6 +103,16 @@ def checkStr():
                 publishState_stream("INFO : mount point " + STREAM_MOUNTPOINT + " not found.")
                 # print ("INFO : mount point " + STREAM_MOUNTPOINT + " not found.")
             prv_r = cur_r
+
+            # Send MPD status
+            cur_rr = 0
+            if (cur_rr != prv_rr):
+                msg = "STOPPED : Check " + STREAM_BASE_URL + STREAM_MOUNTPOINT + "!!"
+                # print msg
+                publishState_player(msg, 0)
+            prv_rr = cur_rr
+
+
         else:
             result = subprocess.check_output ('mpc current', shell=True) # !!mpd must be running before do this.
             # print result
