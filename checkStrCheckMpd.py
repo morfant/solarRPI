@@ -50,8 +50,6 @@ def topic_play(x):
     }.get(x) 
     
 def mp(x):
-    print ("x: " + x)
-    print type(x)
     return {
         "IMSI" : "xx.mp3",
         "SONGDO" : "imsi.mp3",
@@ -70,6 +68,7 @@ def init():
     global PLACE
     global STREAM_MOUNTPOINT
     global STREAM_NAME
+    # Read PLACE from outside script
     result = str(subprocess.check_output ('cat PLACE', shell=True))
     PLACE = result.split('\n')[0]
     STREAM_MOUNTPOINT = mp(PLACE)
