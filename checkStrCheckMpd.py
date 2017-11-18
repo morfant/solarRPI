@@ -99,7 +99,7 @@ def AIOmessage(client, feed_id, payload):
     # the new value.    
     print (payload)
     print("adafruit.io received ", payload)
-    result = subprocess.check_output ('amixer sset Master ' + payload, shell=True)
+    result = subprocess.check_output ('amixer sset Master ' + payload + '%', shell=True)
     result = subprocess.check_output ('sed -i "3s/.*/vol=' + payload + '/g" s', shell=True)
 
 
