@@ -16,7 +16,7 @@ import subprocess
 ########################
 # Globals
 ########################
-PLACE = "SONGDO" # where is the player?
+PLACE = ""
 ADAFRUIT_IO_USERNAME = "giy"        # Adafruit.IO user ID
 ADAFRUIT_IO_KEY = "c0ee9df947d4443286872f667e389f1f"    # Adafruit.IO user key
 ADAFRUIT_IO_TOPIC_info = "info"        # Adafruit.IO alarm topic
@@ -50,6 +50,8 @@ def topic_play(x):
     }.get(x) 
     
 def mp(x):
+    print ("x: " + x)
+    print type(x)
     return {
         "IMSI" : "xx.mp3",
         "SONGDO" : "imsi.mp3",
@@ -65,8 +67,11 @@ def streamName(x):
 
 
 def init():
+    global PLACE
     global STREAM_MOUNTPOINT
     global STREAM_NAME
+    result = str(subprocess.check_output ('cat PLACE', shell=True))
+    PLACE = result.split('\n')[0]
     STREAM_MOUNTPOINT = mp(PLACE)
     #print STREAM_MOUNTPOINT
     STREAM_NAME = streamName(PLACE)
@@ -136,6 +141,8 @@ def checkStr():
         else:
             result = subprocess.check_output ('mpc current', shell=True) # !!mpd must be running before do this.
             #print result
+
+            subprocess.check_output ('mpc play', shell=True)
 
             if STREAM_NAME in result: # Playing already
                 cur_rr = 1
