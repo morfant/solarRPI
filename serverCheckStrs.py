@@ -82,18 +82,21 @@ def checkStr():
 
     r = requests.get(STREAM_CHECK_POINT)
     dic = r.json()
-    sources = dic['icestats']['source']
 
     listenUrls[:] = []
 
-    if len(sources) > 0:
-        for x in range(0, len(sources)):
-            listenUrls.append(sources[x]['listenurl'].split('/')[-1])
+    if 'source' in dic['icestats']:
+        sources = dic['icestats']['source']
+        lenSrc = len(sources)
+        # print sources
 
-    # print "listurl: "
-    # print listenUrls
-    # print "prev_listurl: "
-    # print prev_listenUrls
+        if lenSrc > 3 : # means it has 1 key
+            listenUrls.append(sources['listenurl'].split('/')[-1])
+        else : # means it has 2 or 3 keys
+            for x in range(0, len(sources)):
+                listenUrls.append(sources[x]['listenurl'].split('/')[-1])
+
+    print listenUrls
     
     if listenUrls != prev_listenUrls:
 
@@ -102,16 +105,16 @@ def checkStr():
             # print "mp: " + mp
 
             if (r.status_code != 200):
-                publishState_stream("Streaming link has NOT OK response (" + r.status_code + ")", w)
+                publishState_stream("JJWC: Streaming link has NOT OK response (" + r.status_code + ")", w)
                 publishState_player(OFF_VALUE, w)
                 
             else:
                 if mp not in listenUrls:
-                    publishState_stream("Mount point " + mp + " not found.", w)
+                    publishState_stream("JJWC: Mount point " + mp + " not found.", w)
                     publishState_player(OFF_VALUE, w)
 
                 else:
-                    publishState_stream("Mount point " + mp + " is streaming well.", w)
+                    publishState_stream("JJWC: Mount point " + mp + " is streaming well.", w)
         
         # https://stackoverflow.com/questions/2612802/how-to-clone-or-copy-a-list
         prev_listenUrls = listenUrls[:]
