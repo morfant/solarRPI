@@ -97,7 +97,11 @@ def AIOmessage(client, feed_id, payload):
     # Message function will be called when a subscribed feed has a new value.
     # The feed_id parameter identifies the feed, and the payload parameter has
     # the new value.    
+    print (payload)
     print("adafruit.io received ", payload)
+    result = subprocess.check_output ('amixer sset Master ' + payload, shell=True)
+    result = subprocess.check_output ('sed -i "3s/.*/vol=' + payload + '/g" s', shell=True)
+
 
 def publishState_stream(monitorState):
     client.publish(ADAFRUIT_IO_TOPIC_info, monitorState)
