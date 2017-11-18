@@ -76,7 +76,7 @@ def init():
     global STREAM_MOUNTPOINT
     global STREAM_NAME
     # Read PLACE from outside script
-    result = str(subprocess.check_output ('cat PLACE', shell=True))
+    result = str(subprocess.check_output ('/bin/cat /home/pi/bin/solarRPI/PLACE', shell=True))
     PLACE = result.split('\n')[0]
     STREAM_MOUNTPOINT = mp(PLACE)
     #print STREAM_MOUNTPOINT
@@ -100,7 +100,7 @@ def AIOmessage(client, feed_id, payload):
     # print (payload)
     print("adafruit.io received ", payload)
     result = subprocess.check_output ('amixer sset Master ' + payload + '%', shell=True)
-    result = subprocess.check_output ('sed -i "3s/.*/vol=' + payload + '/g" s', shell=True)
+    result = subprocess.check_output ('sed -i "3s/.*/vol=' + payload + '/g" /home/pi/bin/solarRPI/s', shell=True)
 
 
 def publishState_stream(monitorState):
