@@ -48,7 +48,14 @@ def topic_play(x):
         "SONGDO" : "player_1",
         "XX" : "player_2"
     }.get(x) 
-    
+
+def feed_spkVol(x):
+    return {
+        "IMSI" : "spk_vol_0",
+        "SONGDO" : "spk_vol_1",
+        "XX" : "spk_vol_2"
+    }.get(x) 
+
 def mp(x):
     return {
         "IMSI" : "xx.mp3",
@@ -81,7 +88,7 @@ def init():
 def AIOconnected(client):
     # client.subscribe('alarms')
     print("Connected to Adafruit.IO")
-    # client.subscribe(ADAFRUIT_IO_TOPIC_0)
+    client.subscribe(feed_spkVol(PLACE))
 
 def AIOdisconnected(client):
     print("adafruit.io client disconnected!")
