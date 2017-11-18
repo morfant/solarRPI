@@ -85,8 +85,10 @@ def checkStr():
     sources = dic['icestats']['source']
 
     listenUrls[:] = []
-    for x in range(0, len(sources)):
-        listenUrls.append(sources[x]['listenurl'].split('/')[-1])
+
+    if len(sources) > 0:
+        for x in range(0, len(sources)):
+            listenUrls.append(sources[x]['listenurl'].split('/')[-1])
 
     # print "listurl: "
     # print listenUrls
