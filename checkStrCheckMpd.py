@@ -19,11 +19,10 @@ import subprocess
 PLACE = ""
 ADAFRUIT_IO_USERNAME = "giy"        # Adafruit.IO user ID
 ADAFRUIT_IO_KEY = "c0ee9df947d4443286872f667e389f1f"    # Adafruit.IO user key
-# ADAFRUIT_IO_TOPIC_info = "info"        # Adafruit.IO alarm topic
 STREAM_BASE_URL = "http://weatherreport.kr:8000/"
 STREAM_CHECK_POINT = "http://weatherreport.kr:8000/status-json.xsl"
-ON_VALUE = "1"
-OFF_VALUE = "0"
+ON_VALUE = "Player for " + mp(PLACE) + " is ON"
+OFF_VALUE = "Player for " + mp(PLACE) + " is OFF"
 
 SCRIPT_PATH = "/home/pi/bin/solarRPI/"
 
@@ -39,20 +38,16 @@ prv_rr = 0
 
 def topic_str(x):
     return {
-        # "IMSI" : "stream_0",
-        # "SONGDO" : "stream_1",
-        # "XX" : "stream_2"
-        "IMSI" : "tt",
-        "SONGDO" : "tt",
-        "XX" : "tt"
-
+        "IMSI" : "text_console",
+        "SONGDO" : "text_console",
+        "XX" : "text_console"
     }.get(x) 
     
 def topic_play(x):
     return {
-        "IMSI" : "player_0",
-        "SONGDO" : "player_1",
-        "XX" : "player_2"
+        "IMSI" : "text_console",
+        "SONGDO" : "text_console",
+        "XX" : "text_console"
     }.get(x) 
 
 def feed_spkVol(x):
@@ -111,12 +106,10 @@ def AIOmessage(client, feed_id, payload):
 
 
 def publishState_stream(monitorState):
-    # client.publish(ADAFRUIT_IO_TOPIC_info, monitorState)
     client.publish(topic_str(PLACE), monitorState)
     print("Publishing to " + topic_str(PLACE) + ": " + monitorState)
 
 def publishState_player(monitorState, onoff):
-    # client.publish(ADAFRUIT_IO_TOPIC_info, monitorState)
     client.publish(topic_play(PLACE), onoff)
     print("Publishing to " + topic_play(PLACE) + ": " + onoff)
 
