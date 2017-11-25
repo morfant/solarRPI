@@ -1,0 +1,2 @@
+echo "Bye..."
+sudo halt
