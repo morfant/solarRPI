@@ -29,8 +29,6 @@ SCRIPT_PATH = "/home/pi/bin/solarRPI/"
 cur_r = 0
 prv_r = 0
 
-cur_rr = 0
-prv_rr = 0
 
 ########################
 # Functions
@@ -38,16 +36,16 @@ prv_rr = 0
 
 def topic_str(x):
     return {
-        "IMSI" : "stream_0",
-        "SONGDO" : "stream_1",
-        "XX" : "stream_2"
+        "IMSI" : "text_console",
+        "SONGDO" : "text_console",
+        "XX" : "text_console"
     }.get(x) 
     
 def topic_play(x):
     return {
-        "IMSI" : "player_0",
-        "SONGDO" : "player_1",
-        "XX" : "player_2"
+        "IMSI" : "text_console",
+        "SONGDO" : "text_console",
+        "XX" : "text_console"
     }.get(x) 
 
 def feed_recVol(x):
@@ -98,83 +96,37 @@ def AIOmessage(client, feed_id, payload):
     # Message function will be called when a subscribed feed has a new value.
     # The feed_id parameter identifies the feed, and the payload parameter has
     # the new value.    
-    # print (payload)
     print("adafruit.io received ", payload)
-    result = subprocess.check_output ('amixer sset Master ' + payload + '%', shell=True)
-    result = subprocess.check_output ('sed -i "3s/.*/vol=' + payload + '/g" ' + SCRIPT_PATH + 's', shell=True)
-
+    if feed_id == feed_recVol(PLACE):
+        result = subprocess.check_output ('amixer sset Master ' + payload + '%', shell=True) # set rec volume
+        result = subprocess.check_output ('sed -i "3s/.*/vol=' + payload + '/g" ' + SCRIPT_PATH + 's', shell=True) # save value
+    elif feed_id == "sudo_halt":
+        if payload == "1":
+            subprocess.check_output ('sudo halt', shell=True)
 
 def publishState_stream(monitorState):
-    client.publish(ADAFRUIT_IO_TOPIC_info, monitorState)
     client.publish(topic_str(PLACE), monitorState)
     print("Publishing to " + topic_str(PLACE) + ": " + monitorState)
-
-def publishState_player(monitorState, onoff):
-    client.publish(ADAFRUIT_IO_TOPIC_info, monitorState)
-    client.publish(topic_play(PLACE), onoff)
-    print("Publishing to " + topic_play(PLACE) + ": " + onoff)
-
-def readyToPlay():
-    result = subprocess.check_output ('mpc clear', shell=True)
-    # print result
-    result = subprocess.check_output ('mpc add ' + STREAM_BASE_URL + STREAM_MOUNTPOINT, shell=True)
-    # print result
-    result = subprocess.check_output ('mpc play', shell=True)
-    # print result
 
 def checkStr():
     r = requests.get(STREAM_CHECK_POINT)
     global cur_r
     global prv_r    
-    global cur_rr
-    global prv_rr
 
-    # print r
     if (r.status_code != 200):
-        publishState_stream("INFO : Streaming link has NOT OK response (" + r.status_code + ")")
-        # print ("INFO : Streaming link has NOT OK response (" + r.status_code + ")")
+        publishState_stream("STREAMER : Streaming link has NOT OK response (" + r.status_code + ")")
     else:
-        # STREAM_MOUNTPOINT = mp(PLACE)
         if STREAM_MOUNTPOINT not in r.content:
-
             cur_r = 0
             if (cur_r != prv_r):
-                publishState_stream("INFO : mount point " + STREAM_MOUNTPOINT + " not found.")
-                # print ("INFO : mount point " + STREAM_MOUNTPOINT + " not found.")
-
-                # Send MPD status
-                msg = "mount point " +  STREAM_BASE_URL + STREAM_MOUNTPOINT + "not found."
-                publishState_player(msg, OFF_VALUE)
-
+                publishState_stream("STREAMER : " + STREAM_MOUNTPOINT + " is NOT streaming...")
             prv_r = cur_r
 
 
         else:
-            result = subprocess.check_output ('mpc current', shell=True) # !!mpd must be running before do this.
-            #print result
-
-            subprocess.check_output ('mpc play', shell=True)
-
-            if STREAM_NAME in result: # Playing already
-                cur_rr = 1
-                if (cur_rr != prv_rr):
-                    msg = "PLAYING OK : " + STREAM_BASE_URL + STREAM_MOUNTPOINT
-                #    print msg
-                    publishState_player(msg, ON_VALUE)
-                prv_rr = cur_rr
-
-            else :
-                cur_rr = 0
-                if (cur_rr != prv_rr):
-                    msg = "STOPPED : Check " + STREAM_BASE_URL + STREAM_MOUNTPOINT + "!!"
-                #    print msg
-                    publishState_player(msg, OFF_VALUE)
-                    readyToPlay()
-                prv_rr = cur_rr
-
             cur_r = 1
             if (cur_r != prv_r):
-                publishState_stream("INFO : mount point " + STREAM_MOUNTPOINT + " is streaming well.")
+                publishState_stream("STREAMER : mount point " + STREAM_MOUNTPOINT + " is streaming WELL.")
             prv_r = cur_r
 
     threading.Timer(10, checkStr).start()
@@ -208,8 +160,7 @@ if "__main__" == __name__:
     # doing things in your program.client.loop_background()
     client.loop_background()
 
-    # readyToPlay()
-    # checkStr()
+    checkStr()
 
     sys.exit(0)
 
