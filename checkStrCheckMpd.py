@@ -21,8 +21,8 @@ ADAFRUIT_IO_USERNAME = "giy"        # Adafruit.IO user ID
 ADAFRUIT_IO_KEY = "c0ee9df947d4443286872f667e389f1f"    # Adafruit.IO user key
 STREAM_BASE_URL = "http://weatherreport.kr:8000/"
 STREAM_CHECK_POINT = "http://weatherreport.kr:8000/status-json.xsl"
-ON_VALUE = "Player for " + mp(PLACE) + " is ON"
-OFF_VALUE = "Player for " + mp(PLACE) + " is OFF"
+ON_VALUE = " player is ON"
+OFF_VALUE = " player is OFF"
 
 SCRIPT_PATH = "/home/pi/bin/solarRPI/"
 
@@ -143,7 +143,7 @@ def checkStr():
 
                 # Send MPD status
                 msg = "mount point " +  STREAM_BASE_URL + STREAM_MOUNTPOINT + "not found."
-                publishState_player(msg, OFF_VALUE)
+                publishState_player(msg, mp(PLACE) + OFF_VALUE)
 
             prv_r = cur_r
 
@@ -159,7 +159,7 @@ def checkStr():
                 if (cur_rr != prv_rr):
                     msg = "PLAYING OK : " + STREAM_BASE_URL + STREAM_MOUNTPOINT
                 #    print msg
-                    publishState_player(msg, ON_VALUE)
+                    publishState_player(msg, mp(PLACE) + ON_VALUE)
                 prv_rr = cur_rr
 
             else :
@@ -167,7 +167,7 @@ def checkStr():
                 if (cur_rr != prv_rr):
                     msg = "STOPPED : Check " + STREAM_BASE_URL + STREAM_MOUNTPOINT + "!!"
                 #    print msg
-                    publishState_player(msg, OFF_VALUE)
+                    publishState_player(msg, mp(PLACE) + OFF_VALUE)
                     readyToPlay()
                 prv_rr = cur_rr
 
