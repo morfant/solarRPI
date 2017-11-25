@@ -34,16 +34,16 @@ prev_listenUrls = None
 
 def topic_str(x):
     return {
-        "IMSI" : "stream_0",
-        "SONGDO" : "stream_1",
-        "XX" : "stream_2"
+        "IMSI" : "text_console",
+        "SONGDO" : "text_console",
+        "XX" : "text_console"
     }.get(x) 
     
 def topic_play(x):
     return {
-        "IMSI" : "player_0",
-        "SONGDO" : "player_1",
-        "XX" : "player_2"
+        "IMSI" : "text_console",
+        "SONGDO" : "text_console",
+        "XX" : "text_console"
     }.get(x) 
 
 def getMountPoint(x):
@@ -105,16 +105,16 @@ def checkStr():
             # print "mp: " + mp
 
             if (r.status_code != 200):
-                publishState_stream("JJWC: Streaming link has NOT OK response (" + r.status_code + ")", w)
-                publishState_player(OFF_VALUE, w)
+                publishState_stream("JJWC : Streaming link has NOT OK response (" + r.status_code + ")", w)
+                publishState_player("JJWC : player on " + mp + "is turned OFF.")
                 
             else:
                 if mp not in listenUrls:
-                    publishState_stream("JJWC: Mount point " + mp + " not found.", w)
-                    publishState_player(OFF_VALUE, w)
+                    publishState_stream("JJWC : Mount point " + mp + " not found.", w)
+                    publishState_player("JJWC : player on " + mp + "is turned OFF.")
 
                 else:
-                    publishState_stream("JJWC: Mount point " + mp + " is streaming well.", w)
+                    publishState_stream("JJWC : Mount point " + mp + " is streaming well.", w)
         
         # https://stackoverflow.com/questions/2612802/how-to-clone-or-copy-a-list
         prev_listenUrls = listenUrls[:]
