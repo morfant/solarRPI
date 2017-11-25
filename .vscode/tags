@@ -1,0 +1,87 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+ADAFRUIT_IO_KEY	../_checkStr.py	/^ADAFRUIT_IO_KEY = "c0ee9df947d4443286872f667e389f1f"    # Adafruit.IO user key$/;"	kind:variable	line:21
+ADAFRUIT_IO_KEY	../checkStrCheckMpd.py	/^ADAFRUIT_IO_KEY = "c0ee9df947d4443286872f667e389f1f"    # Adafruit.IO user key$/;"	kind:variable	line:21
+ADAFRUIT_IO_KEY	../serverCheckStrs.py	/^ADAFRUIT_IO_KEY = "c0ee9df947d4443286872f667e389f1f"    # Adafruit.IO user key$/;"	kind:variable	line:20
+ADAFRUIT_IO_TOPIC	../_checkStr.py	/^ADAFRUIT_IO_TOPIC = "info"        # Adafruit.IO alarm topic$/;"	kind:variable	line:22
+ADAFRUIT_IO_TOPIC	../serverCheckStrs.py	/^ADAFRUIT_IO_TOPIC = ""$/;"	kind:variable	line:21
+ADAFRUIT_IO_TOPIC_info	../checkStrCheckMpd.py	/^ADAFRUIT_IO_TOPIC_info = "info"        # Adafruit.IO alarm topic$/;"	kind:variable	line:22
+ADAFRUIT_IO_USERNAME	../_checkStr.py	/^ADAFRUIT_IO_USERNAME = "giy"        # Adafruit.IO user ID$/;"	kind:variable	line:20
+ADAFRUIT_IO_USERNAME	../checkStrCheckMpd.py	/^ADAFRUIT_IO_USERNAME = "giy"        # Adafruit.IO user ID$/;"	kind:variable	line:20
+ADAFRUIT_IO_USERNAME	../serverCheckStrs.py	/^ADAFRUIT_IO_USERNAME = "giy"        # Adafruit.IO user ID$/;"	kind:variable	line:19
+AIOconnected	../_checkStr.py	/^def AIOconnected(client):$/;"	kind:function	line:35
+AIOconnected	../checkStrCheckMpd.py	/^def AIOconnected(client):$/;"	kind:function	line:90
+AIOconnected	../serverCheckStrs.py	/^def AIOconnected(client):$/;"	kind:function	line:57
+AIOdisconnected	../_checkStr.py	/^def AIOdisconnected(client):$/;"	kind:function	line:40
+AIOdisconnected	../checkStrCheckMpd.py	/^def AIOdisconnected(client):$/;"	kind:function	line:95
+AIOdisconnected	../serverCheckStrs.py	/^def AIOdisconnected(client):$/;"	kind:function	line:62
+AIOmessage	../_checkStr.py	/^def AIOmessage(client, feed_id, payload):$/;"	kind:function	line:43
+AIOmessage	../checkStrCheckMpd.py	/^def AIOmessage(client, feed_id, payload):$/;"	kind:function	line:98
+AIOmessage	../serverCheckStrs.py	/^def AIOmessage(client, feed_id, payload):$/;"	kind:function	line:65
+OFF_VALUE	../checkStrCheckMpd.py	/^OFF_VALUE = "0"$/;"	kind:variable	line:26
+OFF_VALUE	../serverCheckStrs.py	/^OFF_VALUE = "0"$/;"	kind:variable	line:23
+ON_VALUE	../checkStrCheckMpd.py	/^ON_VALUE = "1"$/;"	kind:variable	line:25
+ON_VALUE	../serverCheckStrs.py	/^ON_VALUE = "1"$/;"	kind:variable	line:22
+PLACE	../checkStrCheckMpd.py	/^PLACE = ""$/;"	kind:variable	line:19
+PLACES	../serverCheckStrs.py	/^PLACES = ["IMSI", "SONGDO", "XX"]$/;"	kind:variable	line:25
+SCRIPT_PATH	../checkStrCheckMpd.py	/^SCRIPT_PATH = "\/home\/pi\/bin\/solarRPI\/"$/;"	kind:variable	line:28
+STREAM_BASE_URL	../checkStrCheckMpd.py	/^STREAM_BASE_URL = "http:\/\/weatherreport.kr:8000\/"$/;"	kind:variable	line:23
+STREAM_CHECK_POINT	../_checkStr.py	/^STREAM_CHECK_POINT = "http:\/\/weatherreport.kr:8000\/status-json.xsl"$/;"	kind:variable	line:25
+STREAM_CHECK_POINT	../checkStrCheckMpd.py	/^STREAM_CHECK_POINT = "http:\/\/weatherreport.kr:8000\/status-json.xsl"$/;"	kind:variable	line:24
+STREAM_CHECK_POINT	../serverCheckStrs.py	/^STREAM_CHECK_POINT = "http:\/\/weatherreport.kr:8000\/status-json.xsl"$/;"	kind:variable	line:26
+STREAM_MOUNTPOINT	../_checkStr.py	/^STREAM_MOUNTPOINT = "weatherreport.mp3"$/;"	kind:variable	line:24
+_checkStr.py	../_checkStr.py	1;"	kind:file	line:1
+checkStr	../_checkStr.py	/^def checkStr():$/;"	kind:function	line:54
+checkStr	../checkStrCheckMpd.py	/^def checkStr():$/;"	kind:function	line:127
+checkStr	../serverCheckStrs.py	/^def checkStr():$/;"	kind:function	line:79
+checkStrCheckMpd.py	../checkStrCheckMpd.py	1;"	kind:file	line:1
+client	../_checkStr.py	/^    client = MQTTClient(ADAFRUIT_IO_USERNAME, ADAFRUIT_IO_KEY)$/;"	kind:variable	line:88
+client	../checkStrCheckMpd.py	/^    client = MQTTClient(ADAFRUIT_IO_USERNAME, ADAFRUIT_IO_KEY)$/;"	kind:variable	line:194
+client	../serverCheckStrs.py	/^    client = MQTTClient(ADAFRUIT_IO_USERNAME, ADAFRUIT_IO_KEY)$/;"	kind:variable	line:133
+cur_r	../_checkStr.py	/^cur_r = 0$/;"	kind:variable	line:27
+cur_r	../checkStrCheckMpd.py	/^cur_r = 0$/;"	kind:variable	line:30
+cur_rr	../checkStrCheckMpd.py	/^cur_rr = 0$/;"	kind:variable	line:33
+feed_spkVol	../checkStrCheckMpd.py	/^def feed_spkVol(x):$/;"	kind:function	line:54
+getMountPoint	../serverCheckStrs.py	/^def getMountPoint(x):$/;"	kind:function	line:49
+init	../checkStrCheckMpd.py	/^def init():$/;"	kind:function	line:76
+listenUrls	../serverCheckStrs.py	/^listenUrls = []$/;"	kind:variable	line:28
+mp	../checkStrCheckMpd.py	/^def mp(x):$/;"	kind:function	line:61
+os	../_checkStr.py	/^import os$/;"	kind:namespace	line:5
+os	../checkStrCheckMpd.py	/^import os$/;"	kind:namespace	line:5
+os	../serverCheckStrs.py	/^import os$/;"	kind:namespace	line:5
+prev_listenUrls	../serverCheckStrs.py	/^prev_listenUrls = None$/;"	kind:variable	line:29
+prv_r	../_checkStr.py	/^prv_r = 0$/;"	kind:variable	line:28
+prv_r	../checkStrCheckMpd.py	/^prv_r = 0$/;"	kind:variable	line:31
+prv_rr	../checkStrCheckMpd.py	/^prv_rr = 0$/;"	kind:variable	line:34
+publishState	../_checkStr.py	/^def publishState(monitorState):$/;"	kind:function	line:49
+publishState_player	../checkStrCheckMpd.py	/^def publishState_player(monitorState, onoff):$/;"	kind:function	line:114
+publishState_player	../serverCheckStrs.py	/^def publishState_player(onoff, w):$/;"	kind:function	line:75
+publishState_stream	../checkStrCheckMpd.py	/^def publishState_stream(monitorState):$/;"	kind:function	line:109
+publishState_stream	../serverCheckStrs.py	/^def publishState_stream(monitorState, w):$/;"	kind:function	line:71
+readyToPlay	../checkStrCheckMpd.py	/^def readyToPlay():$/;"	kind:function	line:119
+requests	../_checkStr.py	/^import requests$/;"	kind:namespace	line:11
+requests	../checkStrCheckMpd.py	/^import requests$/;"	kind:namespace	line:11
+requests	../serverCheckStrs.py	/^import requests$/;"	kind:namespace	line:11
+serverCheckStrs.py	../serverCheckStrs.py	1;"	kind:file	line:1
+streamName	../checkStrCheckMpd.py	/^def streamName(x):$/;"	kind:function	line:68
+string	../_checkStr.py	/^import string$/;"	kind:namespace	line:6
+string	../checkStrCheckMpd.py	/^import string$/;"	kind:namespace	line:6
+string	../serverCheckStrs.py	/^import string$/;"	kind:namespace	line:6
+subprocess	../checkStrCheckMpd.py	/^import subprocess$/;"	kind:namespace	line:14
+sys	../_checkStr.py	/^import sys$/;"	kind:namespace	line:12
+sys	../checkStrCheckMpd.py	/^import sys$/;"	kind:namespace	line:12
+sys	../serverCheckStrs.py	/^import sys$/;"	kind:namespace	line:12
+threading	../_checkStr.py	/^import threading$/;"	kind:namespace	line:10
+threading	../checkStrCheckMpd.py	/^import threading$/;"	kind:namespace	line:10
+threading	../serverCheckStrs.py	/^import threading$/;"	kind:namespace	line:10
+time	../_checkStr.py	/^import time$/;"	kind:namespace	line:9
+time	../checkStrCheckMpd.py	/^import time$/;"	kind:namespace	line:9
+time	../serverCheckStrs.py	/^import time$/;"	kind:namespace	line:9
+topic_play	../checkStrCheckMpd.py	/^def topic_play(x):$/;"	kind:function	line:47
+topic_play	../serverCheckStrs.py	/^def topic_play(x):$/;"	kind:function	line:42
+topic_str	../checkStrCheckMpd.py	/^def topic_str(x):$/;"	kind:function	line:40
+topic_str	../serverCheckStrs.py	/^def topic_str(x):$/;"	kind:function	line:35
