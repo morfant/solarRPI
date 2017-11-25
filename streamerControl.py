@@ -19,7 +19,6 @@ import subprocess
 PLACE = ""
 ADAFRUIT_IO_USERNAME = "giy"        # Adafruit.IO user ID
 ADAFRUIT_IO_KEY = "c0ee9df947d4443286872f667e389f1f"    # Adafruit.IO user key
-# ADAFRUIT_IO_TOPIC_info = "info"        # Adafruit.IO alarm topic
 STREAM_BASE_URL = "http://weatherreport.kr:8000/"
 STREAM_CHECK_POINT = "http://weatherreport.kr:8000/status-json.xsl"
 ON_VALUE = "1"
@@ -39,31 +38,23 @@ prv_rr = 0
 
 def topic_str(x):
     return {
-        # "IMSI" : "stream_0",
-        # "SONGDO" : "stream_1",
-        # "XX" : "stream_2"
-        "IMSI" : "tt",
-        "SONGDO" : "tt",
-        "XX" : "tt"
-
+        "IMSI" : "stream_0",
+        "SONGDO" : "stream_1",
+        "XX" : "stream_2"
     }.get(x) 
     
 def topic_play(x):
     return {
-#        "IMSI" : "player_0",
-#        "SONGDO" : "player_1",
-#        "XX" : "player_2"
-        "IMSI" : "tt",
-        "SONGDO" : "tt",
-        "XX" : "tt"
-
+        "IMSI" : "player_0",
+        "SONGDO" : "player_1",
+        "XX" : "player_2"
     }.get(x) 
 
-def feed_spkVol(x):
+def feed_recVol(x):
     return {
-        "IMSI" : "spk_vol_0",
-        "SONGDO" : "spk_vol_1",
-        "XX" : "spk_vol_2"
+        "IMSI" : "rec_vol_0",
+        "SONGDO" : "rec_vol_1",
+        "XX" : "rec_vol_2"
     }.get(x) 
 
 def mp(x):
@@ -98,7 +89,7 @@ def init():
 def AIOconnected(client):
     # client.subscribe('alarms')
     print("Connected to Adafruit.IO")
-    client.subscribe(feed_spkVol(PLACE))
+    client.subscribe(feed_recVol(PLACE))
 
 def AIOdisconnected(client):
     print("adafruit.io client disconnected!")
@@ -110,17 +101,16 @@ def AIOmessage(client, feed_id, payload):
     # print (payload)
     print("adafruit.io received ", payload)
     result = subprocess.check_output ('amixer sset Master ' + payload + '%', shell=True)
-#    result = subprocess.check_output ('sed -i "3s/.*/vol=' + payload + '/g" /home/pi/bin/solarRPI/s', shell=True)
     result = subprocess.check_output ('sed -i "3s/.*/vol=' + payload + '/g" ' + SCRIPT_PATH + 's', shell=True)
 
 
 def publishState_stream(monitorState):
-    # client.publish(ADAFRUIT_IO_TOPIC_info, monitorState)
+    client.publish(ADAFRUIT_IO_TOPIC_info, monitorState)
     client.publish(topic_str(PLACE), monitorState)
     print("Publishing to " + topic_str(PLACE) + ": " + monitorState)
 
 def publishState_player(monitorState, onoff):
-    # client.publish(ADAFRUIT_IO_TOPIC_info, monitorState)
+    client.publish(ADAFRUIT_IO_TOPIC_info, monitorState)
     client.publish(topic_play(PLACE), onoff)
     print("Publishing to " + topic_play(PLACE) + ": " + onoff)
 
@@ -218,8 +208,8 @@ if "__main__" == __name__:
     # doing things in your program.client.loop_background()
     client.loop_background()
 
-    readyToPlay()
-    checkStr()
+    # readyToPlay()
+    # checkStr()
 
     sys.exit(0)
 
