@@ -135,16 +135,16 @@ def checkStr():
 
     # print r
     if (r.status_code != 200):
-        publishState_stream("INFO : Streaming link has NOT OK response (" + r.status_code + ")")
-        # print ("INFO : Streaming link has NOT OK response (" + r.status_code + ")")
+        publishState_stream("PLAYER : Streaming link has NOT OK response (" + r.status_code + ")")
+        # print ("PLAYER : Streaming link has NOT OK response (" + r.status_code + ")")
     else:
         # STREAM_MOUNTPOINT = mp(PLACE)
         if STREAM_MOUNTPOINT not in r.content:
 
             cur_r = 0
             if (cur_r != prv_r):
-                publishState_stream("INFO : mount point " + STREAM_MOUNTPOINT + " not found.")
-                # print ("INFO : mount point " + STREAM_MOUNTPOINT + " not found.")
+                publishState_stream("PLAYER : mount point " + STREAM_MOUNTPOINT + " not found.")
+                # print ("PLAYER : mount point " + STREAM_MOUNTPOINT + " not found.")
 
                 # Send MPD status
                 msg = "mount point " +  STREAM_BASE_URL + STREAM_MOUNTPOINT + "not found."
@@ -178,7 +178,7 @@ def checkStr():
 
             cur_r = 1
             if (cur_r != prv_r):
-                publishState_stream("INFO : mount point " + STREAM_MOUNTPOINT + " is streaming well.")
+                publishState_stream("PLAYER : mount point " + STREAM_MOUNTPOINT + " is streaming well.")
             prv_r = cur_r
 
     threading.Timer(10, checkStr).start()
