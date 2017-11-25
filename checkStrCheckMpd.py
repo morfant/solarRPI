@@ -147,7 +147,7 @@ def checkStr():
                 # print ("PLAYER : mount point " + STREAM_MOUNTPOINT + " not found.")
 
                 # Send MPD status
-                msg = "mount point " +  STREAM_BASE_URL + STREAM_MOUNTPOINT + "not found."
+                msg = "PLAYER : mount point " +  STREAM_BASE_URL + STREAM_MOUNTPOINT + "not found."
                 publishState_player(msg, mp(PLACE) + OFF_VALUE)
 
             prv_r = cur_r
@@ -162,7 +162,7 @@ def checkStr():
             if STREAM_NAME in result: # Playing already
                 cur_rr = 1
                 if (cur_rr != prv_rr):
-                    msg = "PLAYING OK : " + STREAM_BASE_URL + STREAM_MOUNTPOINT
+                    msg = "PLAYER : " + STREAM_BASE_URL + STREAM_MOUNTPOINT + " is playing"
                 #    print msg
                     publishState_player(msg, mp(PLACE) + ON_VALUE)
                 prv_rr = cur_rr
@@ -170,7 +170,7 @@ def checkStr():
             else :
                 cur_rr = 0
                 if (cur_rr != prv_rr):
-                    msg = "STOPPED : Check " + STREAM_BASE_URL + STREAM_MOUNTPOINT + "!!"
+                    msg = "PLAYER : " + STREAM_BASE_URL + STREAM_MOUNTPOINT + " is NOT playing!!"
                 #    print msg
                     publishState_player(msg, mp(PLACE) + OFF_VALUE)
                     readyToPlay()
