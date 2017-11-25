@@ -106,12 +106,12 @@ def checkStr():
 
             if (r.status_code != 200):
                 publishState_stream("JJWC : Streaming link has NOT OK response (" + r.status_code + ")", w)
-                publishState_player("JJWC : player on " + mp + "is turned OFF.")
+                publishState_player("JJWC : player on " + mp + "is turned OFF.", w)
                 
             else:
                 if mp not in listenUrls:
                     publishState_stream("JJWC : Mount point " + mp + " not found.", w)
-                    publishState_player("JJWC : player on " + mp + "is turned OFF.")
+                    publishState_player("JJWC : player on " + mp + "is turned OFF.", w)
 
                 else:
                     publishState_stream("JJWC : Mount point " + mp + " is streaming well.", w)
