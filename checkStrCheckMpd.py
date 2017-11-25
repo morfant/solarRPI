@@ -101,15 +101,12 @@ def AIOmessage(client, feed_id, payload):
     # the new value.    
     # print (payload)
     print("adafruit.io received ", payload)
-    print feed_id
-    if feed_id is feed_spkVol(PLACE):
-        print "set spk vol!"
-        # result = subprocess.check_output ('amixer sset Master ' + payload + '%', shell=True) # set spk volume
-        # result = subprocess.check_output ('sed -i "3s/.*/vol=' + payload + '/g" ' + SCRIPT_PATH + 's', shell=True) # save value
-    elif feed_id is "sudo_halt":
-        if payload is 1:
-            print "sudo halt!!"
-            # subprocess.check_output ('sudo halt', shell=True)
+    if feed_id == feed_spkVol(PLACE):
+        result = subprocess.check_output ('amixer sset Master ' + payload + '%', shell=True) # set spk volume
+        result = subprocess.check_output ('sed -i "3s/.*/vol=' + payload + '/g" ' + SCRIPT_PATH + 's', shell=True) # save value
+    elif feed_id == "sudo_halt":
+        if payload == "1":
+            subprocess.check_output ('sudo halt', shell=True)
         
 
 
