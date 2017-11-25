@@ -21,8 +21,8 @@ ADAFRUIT_IO_USERNAME = "giy"        # Adafruit.IO user ID
 ADAFRUIT_IO_KEY = "c0ee9df947d4443286872f667e389f1f"    # Adafruit.IO user key
 STREAM_BASE_URL = "http://weatherreport.kr:8000/"
 STREAM_CHECK_POINT = "http://weatherreport.kr:8000/status-json.xsl"
-ON_VALUE = " player is ON"
-OFF_VALUE = " player is OFF"
+#ON_VALUE = " player is ON"
+#OFF_VALUE = " player is OFF"
 
 SCRIPT_PATH = "/home/pi/bin/solarRPI/"
 
@@ -114,9 +114,9 @@ def publishState_stream(monitorState):
     client.publish(topic_str(PLACE), monitorState)
     print("Publishing to " + topic_str(PLACE) + ": " + monitorState)
 
-def publishState_player(monitorState, onoff):
-    client.publish(topic_play(PLACE), onoff)
-    print("Publishing to " + topic_play(PLACE) + ": " + onoff)
+def publishState_player(monitorState):
+    client.publish(topic_play(PLACE), monitorState)
+    print("Publishing to " + topic_play(PLACE) + ": " + monitorState)
 
 def readyToPlay():
     result = subprocess.check_output ('mpc clear', shell=True)
@@ -147,8 +147,8 @@ def checkStr():
                 # print ("PLAYER : mount point " + STREAM_MOUNTPOINT + " not found.")
 
                 # Send MPD status
-                msg = "PLAYER : mount point " +  STREAM_BASE_URL + STREAM_MOUNTPOINT + "not found."
-                publishState_player(msg, mp(PLACE) + OFF_VALUE)
+                msg = "PLAYER : " +  STREAM_BASE_URL + STREAM_MOUNTPOINT + "not found."
+                publishState_player(msg)
 
             prv_r = cur_r
 
@@ -162,9 +162,9 @@ def checkStr():
             if STREAM_NAME in result: # Playing already
                 cur_rr = 1
                 if (cur_rr != prv_rr):
-                    msg = "PLAYER : " + STREAM_BASE_URL + STREAM_MOUNTPOINT + " is playing"
+                    msg = "PLAYER : " + STREAM_BASE_URL + STREAM_MOUNTPOINT + " is playing."
                 #    print msg
-                    publishState_player(msg, mp(PLACE) + ON_VALUE)
+                    publishState_player(msg)
                 prv_rr = cur_rr
 
             else :
@@ -172,7 +172,7 @@ def checkStr():
                 if (cur_rr != prv_rr):
                     msg = "PLAYER : " + STREAM_BASE_URL + STREAM_MOUNTPOINT + " is NOT playing!!"
                 #    print msg
-                    publishState_player(msg, mp(PLACE) + OFF_VALUE)
+                    publishState_player(msg)
                     readyToPlay()
                 prv_rr = cur_rr
 
