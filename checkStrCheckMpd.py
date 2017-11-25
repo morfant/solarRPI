@@ -39,16 +39,24 @@ prv_rr = 0
 
 def topic_str(x):
     return {
-        "IMSI" : "stream_0",
-        "SONGDO" : "stream_1",
-        "XX" : "stream_2"
+#        "IMSI" : "stream_0",
+#        "SONGDO" : "stream_1",
+#        "XX" : "stream_2"
+        "IMSI" : "tt",
+        "SONGDO" : "tt",
+        "XX" : "tt"
+
     }.get(x) 
     
 def topic_play(x):
     return {
-        "IMSI" : "player_0",
-        "SONGDO" : "player_1",
-        "XX" : "player_2"
+#        "IMSI" : "player_0",
+#        "SONGDO" : "player_1",
+#        "XX" : "player_2"
+        "IMSI" : "tt",
+        "SONGDO" : "tt",
+        "XX" : "tt"
+
     }.get(x) 
 
 def feed_spkVol(x):
