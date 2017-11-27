@@ -62,12 +62,28 @@ def mp(x):
         "XX" : "songdo.mp3"
     }.get(x) 
 
+def mp_self(x):
+    return {
+        "IMSI" : "imsi.mp3",
+        "SONGDO" : "songdo.mp3",
+        "XX" : "xx.mp3"
+    }.get(x) 
+
+
 def streamName(x):
     return {
         "IMSI" : "weatherReport_xx",
         "SONGDO" : "weatherReport_imsi",
         "XX" : "weatherReport_songdo"
     }.get(x) 
+
+def streamName_self(x):
+    return {
+        "IMSI" : "weatherReport_imsi",
+        "SONGDO" : "weatherReport_songdo",
+        "XX" : "weatherReport_xx"
+    }.get(x) 
+
 
 
 def init():
@@ -77,11 +93,11 @@ def init():
     # Read PLACE from outside script
     result = str(subprocess.check_output ('/bin/cat ' + SCRIPT_PATH + 'PLACE', shell=True))
     PLACE = result.split('\n')[0]
-    print PLACE
-    STREAM_MOUNTPOINT = mp(PLACE)
-    print STREAM_MOUNTPOINT
-    STREAM_NAME = streamName(PLACE)
-    print STREAM_NAME
+    # print PLACE
+    STREAM_MOUNTPOINT = mp_self(PLACE)
+    # print STREAM_MOUNTPOINT
+    STREAM_NAME = streamName_self(PLACE)
+    # print STREAM_NAME
 
 
 # Callback functions for Adafruit.IO connections
@@ -122,7 +138,6 @@ def checkStr():
         publishState_stream("STREAMER : Streaming link has NOT OK response (" + r.status_code + ")")
     else:
         if STREAM_MOUNTPOINT not in r.content:
-	    print 0
             cur_r = 0
             if (cur_r != prv_r):
                 publishState_stream("STREAMER : " + STREAM_MOUNTPOINT + " is NOT streaming...")
@@ -130,7 +145,6 @@ def checkStr():
 
 
         else:
-	    print 1
             cur_r = 1
             if (cur_r != prv_r):
                 publishState_stream("STREAMER : mount point " + STREAM_MOUNTPOINT + " is streaming WELL.")
