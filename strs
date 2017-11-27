@@ -1,6 +1,6 @@
 #!/bin/bash
 
-vol=53
+vol=70
 
 echo ----- To do start up -----
 amixer sset IN3L $vol% & amixer sset IN3R $vol% & python /home/pi/bin/solarRPI/streamerControl.py &

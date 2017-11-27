@@ -105,6 +105,7 @@ def AIOconnected(client):
     # client.subscribe('alarms')
     print("Connected to Adafruit.IO")
     client.subscribe(feed_recVol(PLACE))
+    client.subscribe("sudo_halt")
 
 def AIOdisconnected(client):
     print("adafruit.io client disconnected!")
