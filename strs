@@ -1,0 +1,6 @@
+#!/bin/bash
+
+vol=74
+
+echo ----- To do start up -----
+sudo -u pi /usr/bin/amixer sset 'IN3L' $vol% & sudo -u pi /usr/bin/amixer sset 'IN3R' $vol% & python /home/pi/bin/solarRPI/streamerControl.py &
