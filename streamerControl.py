@@ -77,10 +77,11 @@ def init():
     # Read PLACE from outside script
     result = str(subprocess.check_output ('/bin/cat ' + SCRIPT_PATH + 'PLACE', shell=True))
     PLACE = result.split('\n')[0]
+    print PLACE
     STREAM_MOUNTPOINT = mp(PLACE)
-    #print STREAM_MOUNTPOINT
+    print STREAM_MOUNTPOINT
     STREAM_NAME = streamName(PLACE)
-    #print STREAM_NAME
+    print STREAM_NAME
 
 
 # Callback functions for Adafruit.IO connections
@@ -100,17 +101,20 @@ def AIOmessage(client, feed_id, payload):
     if feed_id == feed_recVol(PLACE):
         result = subprocess.check_output ('amixer sset IN3L ' + payload + '%', shell=True) # set rec volume
         result = subprocess.check_output ('amixer sset IN3R ' + payload + '%', shell=True) # set rec volume
-        result = subprocess.check_output ('sed -i "3s/.*/vol=' + payload + '/g" ' + SCRIPT_PATH + 's', shell=True) # save value
+        result = subprocess.check_output ('sed -i "3s/.*/vol=' + payload + '/g" ' + SCRIPT_PATH + 'strs', shell=True) # save value
     elif feed_id == "sudo_halt":
         if payload == "1":
             subprocess.check_output ('sudo halt', shell=True)
 
 def publishState_stream(monitorState):
+    print monitorState
     client.publish(topic_str(PLACE), monitorState)
     print("Publishing to " + topic_str(PLACE) + ": " + monitorState)
 
 def checkStr():
+
     r = requests.get(STREAM_CHECK_POINT)
+    #print r
     global cur_r
     global prv_r    
 
@@ -118,6 +122,7 @@ def checkStr():
         publishState_stream("STREAMER : Streaming link has NOT OK response (" + r.status_code + ")")
     else:
         if STREAM_MOUNTPOINT not in r.content:
+	    print 0
             cur_r = 0
             if (cur_r != prv_r):
                 publishState_stream("STREAMER : " + STREAM_MOUNTPOINT + " is NOT streaming...")
@@ -125,6 +130,7 @@ def checkStr():
 
 
         else:
+	    print 1
             cur_r = 1
             if (cur_r != prv_r):
                 publishState_stream("STREAMER : mount point " + STREAM_MOUNTPOINT + " is streaming WELL.")
