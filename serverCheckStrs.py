@@ -96,7 +96,7 @@ def checkStr():
             for x in range(0, len(sources)):
                 listenUrls.append(sources[x]['listenurl'].split('/')[-1])
 
-    print listenUrls
+    #print listenUrls
     
     if listenUrls != prev_listenUrls:
 
