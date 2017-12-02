@@ -62,12 +62,28 @@ def mp(x):
         "XX" : "songdo.mp3"
     }.get(x) 
 
+def mp_self(x):
+    return {
+        "IMSI" : "imsi.mp3",
+        "SONGDO" : "songdo.mp3",
+        "XX" : "xx.mp3"
+    }.get(x) 
+
+
 def streamName(x):
     return {
         "IMSI" : "weatherReport_xx",
         "SONGDO" : "weatherReport_imsi",
         "XX" : "weatherReport_songdo"
     }.get(x) 
+
+def streamName_self(x):
+    return {
+        "IMSI" : "weatherReport_imsi",
+        "SONGDO" : "weatherReport_songdo",
+        "XX" : "weatherReport_xx"
+    }.get(x) 
+
 
 
 def init():
@@ -77,10 +93,11 @@ def init():
     # Read PLACE from outside script
     result = str(subprocess.check_output ('/bin/cat ' + SCRIPT_PATH + 'PLACE', shell=True))
     PLACE = result.split('\n')[0]
-    STREAM_MOUNTPOINT = mp(PLACE)
-    #print STREAM_MOUNTPOINT
-    STREAM_NAME = streamName(PLACE)
-    #print STREAM_NAME
+    # print PLACE
+    STREAM_MOUNTPOINT = mp_self(PLACE)
+    # print STREAM_MOUNTPOINT
+    STREAM_NAME = streamName_self(PLACE)
+    # print STREAM_NAME
 
 
 # Callback functions for Adafruit.IO connections
@@ -88,6 +105,7 @@ def AIOconnected(client):
     # client.subscribe('alarms')
     print("Connected to Adafruit.IO")
     client.subscribe(feed_recVol(PLACE))
+    client.subscribe("sudo_halt")
 
 def AIOdisconnected(client):
     print("adafruit.io client disconnected!")
@@ -98,18 +116,22 @@ def AIOmessage(client, feed_id, payload):
     # the new value.    
     print("adafruit.io received ", payload)
     if feed_id == feed_recVol(PLACE):
-        result = subprocess.check_output ('amixer sset Master ' + payload + '%', shell=True) # set rec volume
-        result = subprocess.check_output ('sed -i "3s/.*/vol=' + payload + '/g" ' + SCRIPT_PATH + 's', shell=True) # save value
+        result = subprocess.check_output ('sudo -u pi amixer sset IN3L ' + payload + '%', shell=True) # set rec volume
+        result = subprocess.check_output ('sudo -u pi amixer sset IN3R ' + payload + '%', shell=True) # set rec volume
+        result = subprocess.check_output ('sed -i "3s/.*/vol=' + payload + '/g" ' + SCRIPT_PATH + 'strs', shell=True) # save value
     elif feed_id == "sudo_halt":
         if payload == "1":
             subprocess.check_output ('sudo halt', shell=True)
 
 def publishState_stream(monitorState):
+    print monitorState
     client.publish(topic_str(PLACE), monitorState)
     print("Publishing to " + topic_str(PLACE) + ": " + monitorState)
 
 def checkStr():
+
     r = requests.get(STREAM_CHECK_POINT)
+    #print r
     global cur_r
     global prv_r    
 
