@@ -38,35 +38,40 @@ def topic_str(x):
     return {
         "IMSI" : "text_console",
         "SONGDO" : "text_console",
-        "XX" : "text_console"
+        "XX" : "text_console",
+        "DEFAULT" : "text_console"
     }.get(x) 
     
 def topic_play(x):
     return {
         "IMSI" : "text_console",
         "SONGDO" : "text_console",
-        "XX" : "text_console"
+        "XX" : "text_console",
+        "DEFAULT" : "text_console"
     }.get(x) 
 
 def feed_recVol(x):
     return {
         "IMSI" : "rec_vol_0",
         "SONGDO" : "rec_vol_1",
-        "XX" : "rec_vol_2"
+        "XX" : "rec_vol_2",
+        "DEFAULT" : "rec_vol_0"
     }.get(x) 
 
 def mp(x):
     return {
         "IMSI" : "xx.mp3",
         "SONGDO" : "imsi.mp3",
-        "XX" : "songdo.mp3"
+        "XX" : "songdo.mp3",
+        "DEFAULT" : "weatherreport.mp3"
     }.get(x) 
 
 def mp_self(x):
     return {
         "IMSI" : "imsi.mp3",
         "SONGDO" : "songdo.mp3",
-        "XX" : "xx.mp3"
+        "XX" : "xx.mp3",
+        "DEFAULT" : "weatherreport.mp3"
     }.get(x) 
 
 
@@ -74,14 +79,16 @@ def streamName(x):
     return {
         "IMSI" : "weatherReport_xx",
         "SONGDO" : "weatherReport_imsi",
-        "XX" : "weatherReport_songdo"
+        "XX" : "weatherReport_songdo",
+        "DEFAULT" : "weatherreport_jingwan_wet_land"
     }.get(x) 
 
 def streamName_self(x):
     return {
         "IMSI" : "weatherReport_imsi",
         "SONGDO" : "weatherReport_songdo",
-        "XX" : "weatherReport_xx"
+        "XX" : "weatherReport_xx",
+        "DEFAULT" : "weatherreport_jingwan_wet_land"
     }.get(x) 
 
 
@@ -116,8 +123,8 @@ def AIOmessage(client, feed_id, payload):
     # the new value.    
     print("adafruit.io received ", payload)
     if feed_id == feed_recVol(PLACE):
-        result = subprocess.check_output ('sudo -u pi amixer sset IN3L ' + payload + '%', shell=True) # set rec volume
-        result = subprocess.check_output ('sudo -u pi amixer sset IN3R ' + payload + '%', shell=True) # set rec volume
+        result = subprocess.check_output ('sudo -u pi amixer sset \'IN3L Digital\'' + payload + '%', shell=True) # set rec volume
+        result = subprocess.check_output ('sudo -u pi amixer sset \'IN3R Digital\'' + payload + '%', shell=True) # set rec volume
         result = subprocess.check_output ('sed -i "3s/.*/vol=' + payload + '/g" ' + SCRIPT_PATH + 'strs', shell=True) # save value
     elif feed_id == "sudo_halt":
         if payload == "1":
