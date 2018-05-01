@@ -123,8 +123,8 @@ def AIOmessage(client, feed_id, payload):
     # the new value.    
     print("adafruit.io received ", payload)
     if feed_id == feed_recVol(PLACE):
-        result = subprocess.check_output ('sudo -u pi amixer sset \'IN3L Digital\'' + payload + '%', shell=True) # set rec volume
-        result = subprocess.check_output ('sudo -u pi amixer sset \'IN3R Digital\'' + payload + '%', shell=True) # set rec volume
+        result = subprocess.check_output ('sudo -u pi amixer sset \'IN3L Digital\' ' + payload + '%', shell=True) # set rec volume
+        result = subprocess.check_output ('sudo -u pi amixer sset \'IN3R Digital\' ' + payload + '%', shell=True) # set rec volume
         result = subprocess.check_output ('sed -i "3s/.*/vol=' + payload + '/g" ' + SCRIPT_PATH + 'strs', shell=True) # save value
     elif feed_id == "sudo_halt":
         if payload == "1":
